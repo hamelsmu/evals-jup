@@ -13,53 +13,38 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
-class MockDelta:
-    """Mock delta object for streaming events."""
+class MockChoice:
+    """Mock choice object for LiteLLM streaming."""
 
-    def __init__(self, text=None, partial_json=None):
-        if text is not None:
-            self.text = text
-        if partial_json is not None:
-            self.partial_json = partial_json
-
-
-class MockContentBlock:
-    """Mock content block for tool use events."""
-
-    def __init__(self, block_type=None, name=None, block_id=None):
-        self.type = block_type
-        self.name = name
-        self.id = block_id
-
-
-class MockEvent:
-    """Mock event object for streaming."""
-
-    def __init__(self, event_type, delta=None, content_block=None):
-        self.type = event_type
+    def __init__(self, delta):
         self.delta = delta
-        self.content_block = content_block
 
 
-class MockStreamContext:
-    """Mock async context manager for Anthropic streaming."""
+class MockDelta:
+    """Mock delta object for LiteLLM streaming events."""
 
-    def __init__(self, events):
-        self.events = events
+    def __init__(self, content=None, tool_calls=None):
+        self.content = content
+        self.tool_calls = tool_calls
 
-    async def __aenter__(self):
-        return self
 
-    async def __aexit__(self, *args):
-        pass
+class MockToolCall:
+    """Mock tool call object."""
 
-    def __aiter__(self):
-        return self
+    def __init__(self, index, tool_id=None, function_name=None, arguments=None):
+        self.index = index
+        self.id = tool_id
+        self.function = MagicMock()
+        self.function.name = function_name
+        self.function.arguments = arguments
 
-    async def __anext__(self):
-        if not self.events:
-            raise StopAsyncIteration
-        return self.events.pop(0)
+
+class MockChunk:
+    """Mock streaming chunk."""
+
+    def __init__(self, delta):
+        self.choices = [MockChoice(delta)]
+
 
 class MockRequest:
     """Mock tornado request."""
@@ -127,7 +112,6 @@ def handler():
     h._build_messages = PromptHandler._build_messages.__get__(h, MockHandler)
     h._python_type_to_json_schema = PromptHandler._python_type_to_json_schema.__get__(h, MockHandler)
     h._write_sse = PromptHandler._write_sse.__get__(h, MockHandler)
-    # Note: _execute_tool_in_kernel must be patched per-test since we bind the real post method
     h.post = PromptHandler.post.__get__(h, MockHandler)
     return h
 
@@ -138,19 +122,6 @@ class TestUnknownToolRejected:
     @pytest.mark.asyncio
     async def test_unknown_tool_rejected_with_error(self, handler):
         """Tool not in functions dict should produce error SSE event."""
-        content_block = MockContentBlock(
-            block_type="tool_use", name="unknown_tool", block_id="tool_1"
-        )
-        mock_events = [
-            MockEvent("content_block_start", content_block=content_block),
-            MockEvent("content_block_delta", delta=MockDelta(partial_json='{}')),
-            MockEvent("content_block_stop"),
-            MockEvent("message_stop"),
-        ]
-        mock_stream = MockStreamContext(mock_events)
-        mock_client = MagicMock()
-        mock_client.messages.stream.return_value = mock_stream
-
         mock_kernel = MagicMock()
         mock_kernel_manager = MagicMock()
         mock_kernel_manager.get_kernel.return_value = mock_kernel
@@ -163,16 +134,20 @@ class TestUnknownToolRejected:
             "max_steps": 5,
         }
 
+        async def mock_stream():
+            yield MockChunk(MockDelta(tool_calls=[
+                MockToolCall(0, tool_id="tool_1", function_name="unknown_tool", arguments="{}")
+            ]))
+            yield MockChunk(MockDelta(content=None, tool_calls=None))
+
         mock_execute_tool = AsyncMock(return_value={"status": "success", "result": {"type": "text", "content": "42"}})
 
         with (
-            patch("evals_jup.handlers.HAS_ANTHROPIC", True),
-            patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-key"}),
-            patch("evals_jup.handlers.anthropic") as mock_anthropic,
+            patch("evals_jup.handlers.HAS_LITELLM", True),
+            patch("evals_jup.handlers.litellm") as mock_litellm,
             patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
-            mock_anthropic.AsyncAnthropic.return_value = mock_client
-            mock_anthropic.NOT_GIVEN = object()
+            mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()
 
         response = "".join(handler._buffer)
@@ -187,19 +162,6 @@ class TestInvalidToolInputJSON:
     @pytest.mark.asyncio
     async def test_invalid_json_produces_error(self, handler):
         """Invalid JSON in tool input should produce error SSE event."""
-        content_block = MockContentBlock(
-            block_type="tool_use", name="calc", block_id="tool_1"
-        )
-        mock_events = [
-            MockEvent("content_block_start", content_block=content_block),
-            MockEvent("content_block_delta", delta=MockDelta(partial_json='not valid json')),
-            MockEvent("content_block_stop"),
-            MockEvent("message_stop"),
-        ]
-        mock_stream = MockStreamContext(mock_events)
-        mock_client = MagicMock()
-        mock_client.messages.stream.return_value = mock_stream
-
         mock_kernel = MagicMock()
         mock_kernel_manager = MagicMock()
         mock_kernel_manager.get_kernel.return_value = mock_kernel
@@ -212,16 +174,20 @@ class TestInvalidToolInputJSON:
             "max_steps": 5,
         }
 
+        async def mock_stream():
+            yield MockChunk(MockDelta(tool_calls=[
+                MockToolCall(0, tool_id="tool_1", function_name="calc", arguments="not valid json")
+            ]))
+            yield MockChunk(MockDelta(content=None, tool_calls=None))
+
         mock_execute_tool = AsyncMock(return_value={"status": "success", "result": {"type": "text", "content": "42"}})
 
         with (
-            patch("evals_jup.handlers.HAS_ANTHROPIC", True),
-            patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-key"}),
-            patch("evals_jup.handlers.anthropic") as mock_anthropic,
+            patch("evals_jup.handlers.HAS_LITELLM", True),
+            patch("evals_jup.handlers.litellm") as mock_litellm,
             patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
-            mock_anthropic.AsyncAnthropic.return_value = mock_client
-            mock_anthropic.NOT_GIVEN = object()
+            mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()
 
         response = "".join(handler._buffer)
@@ -235,20 +201,6 @@ class TestInvalidToolArgumentName:
 
     @pytest.mark.asyncio
     async def test_invalid_argument_key_produces_error(self, handler):
-        content_block = MockContentBlock(block_type="tool_use", name="calc", block_id="tool_1")
-        tool_input = json.dumps(
-            {'x); __import__("os").system("echo injected"); #': 1}
-        )
-        mock_events = [
-            MockEvent("content_block_start", content_block=content_block),
-            MockEvent("content_block_delta", delta=MockDelta(partial_json=tool_input)),
-            MockEvent("content_block_stop"),
-            MockEvent("message_stop"),
-        ]
-        mock_stream = MockStreamContext(mock_events)
-        mock_client = MagicMock()
-        mock_client.messages.stream.return_value = mock_stream
-
         mock_kernel = MagicMock()
         mock_kernel_manager = MagicMock()
         mock_kernel_manager.get_kernel.return_value = mock_kernel
@@ -261,25 +213,27 @@ class TestInvalidToolArgumentName:
             "max_steps": 5,
         }
 
+        tool_input = json.dumps({'x); __import__("os").system("echo injected"); #': 1})
+
+        async def mock_stream():
+            yield MockChunk(MockDelta(tool_calls=[
+                MockToolCall(0, tool_id="tool_1", function_name="calc", arguments=tool_input)
+            ]))
+            yield MockChunk(MockDelta(content=None, tool_calls=None))
+
         mock_execute_tool = AsyncMock(
             return_value={"status": "success", "result": {"type": "text", "content": "42"}}
         )
 
         with (
-            patch("evals_jup.handlers.HAS_ANTHROPIC", True),
-            patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-key"}),
-            patch("evals_jup.handlers.anthropic") as mock_anthropic,
+            patch("evals_jup.handlers.HAS_LITELLM", True),
+            patch("evals_jup.handlers.litellm") as mock_litellm,
             patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
-            mock_anthropic.AsyncAnthropic.return_value = mock_client
-            mock_anthropic.NOT_GIVEN = object()
+            mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()
 
         response = "".join(handler._buffer)
         assert "Invalid tool argument name" in response
         assert '{"done": true}' in response
         mock_execute_tool.assert_not_called()
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])

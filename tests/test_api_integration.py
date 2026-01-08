@@ -271,16 +271,19 @@ class TestBadInput:
     """Tests for bad input handling."""
 
     @pytest.mark.asyncio
-    async def test_none_json_body_returns_400(self, handler):
-        """When JSON body is None, should return HTTP 400."""
+    async def test_none_json_body_treated_as_empty(self, handler):
+        """When JSON body is None, should be treated as empty dict."""
         handler.get_json_body = lambda: None
 
-        await handler.post()
+        async def mock_stream():
+            yield MockChunk(MockDelta(content="Hello"))
 
-        assert handler._status_code == 400
-        assert handler._finished
-        response = json.loads(handler._buffer[0])
-        assert "Invalid JSON body" in response["error"]
+        with patch("evals_jup.handlers.HAS_LITELLM", True):
+            with patch("evals_jup.handlers.litellm") as mock_litellm:
+                mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
+                await handler.post()
+
+        assert handler._status_code == 200
 
     @pytest.mark.asyncio
     async def test_list_json_body_returns_400(self, handler):
