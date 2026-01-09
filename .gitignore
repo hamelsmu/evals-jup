@@ -21,6 +21,15 @@ test_notebook.ipynb
 node_modules/
 lib/
 
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
 # Build artifacts
 ai_jup/labextension/
 *.tsbuildinfo
