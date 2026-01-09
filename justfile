@@ -1,4 +1,4 @@
-# evals-jup development commands
+# jupyvibe development commands
 
 # Default recipe - show available commands
 default:
@@ -146,7 +146,7 @@ build-prod:
 
 # Clean build artifacts
 clean:
-    rm -rf lib/ evals_jup/labextension/ tsconfig.tsbuildinfo
+    rm -rf lib/ jupyvibe/labextension/ tsconfig.tsbuildinfo
     rm -rf dist/ *.egg-info/
 
 # Install extension into JupyterLab (development mode with live reload)
@@ -164,8 +164,8 @@ install-prod: build-prod
 
 # Uninstall extension
 uninstall:
-    pip uninstall -y evals_jup
-    jupyter labextension uninstall evals-jup 2>/dev/null || true
+    pip uninstall -y jupyvibe
+    jupyter labextension uninstall jupyvibe 2>/dev/null || true
     @echo "✅ Extension uninstalled."
 
 # Start JupyterLab for testing
@@ -236,11 +236,11 @@ release-check: test dist-check
 
 # Format Python code
 fmt:
-    ruff format evals_jup/ tests/
+    ruff format jupyvibe/ tests/
 
 # Lint Python code
 lint:
-    ruff check evals_jup/ tests/
+    ruff check jupyvibe/ tests/
 
 # Watch TypeScript for changes
 watch:

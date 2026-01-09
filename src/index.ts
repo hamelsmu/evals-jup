@@ -29,14 +29,14 @@ import {
   IKernelConnectorFactory
 } from './tokens';
 
-const PLUGIN_ID = 'evals-jup:plugin';
+const PLUGIN_ID = 'jupyvibe:plugin';
 
 /**
  * Settings plugin that provides IExtensionSettings.
  */
 const settingsPlugin: JupyterFrontEndPlugin<IExtensionSettings> = {
-  id: 'evals-jup:settings',
-  description: 'Provides Evals-Jup extension settings',
+  id: 'jupyvibe:settings',
+  description: 'Provides Jupyvibe extension settings',
   autoStart: true,
   requires: [],
   optional: [ISettingRegistry],
@@ -49,9 +49,9 @@ const settingsPlugin: JupyterFrontEndPlugin<IExtensionSettings> = {
     
     if (settingRegistry) {
       await settingsManager.initialize(settingRegistry);
-      console.log('[evals-jup] Settings loaded:', settingsManager.toJSON());
+      console.log('[jupyvibe] Settings loaded:', settingsManager.toJSON());
     } else {
-      console.log('[evals-jup] No setting registry available, using defaults');
+      console.log('[jupyvibe] No setting registry available, using defaults');
     }
     
     return settingsManager;
@@ -62,7 +62,7 @@ const settingsPlugin: JupyterFrontEndPlugin<IExtensionSettings> = {
  * Kernel connector factory plugin.
  */
 const kernelConnectorPlugin: JupyterFrontEndPlugin<IKernelConnectorFactory> = {
-  id: 'evals-jup:kernel-connector',
+  id: 'jupyvibe:kernel-connector',
   description: 'Provides kernel connector factory',
   autoStart: true,
   provides: IKernelConnectorFactory,
@@ -77,7 +77,7 @@ const kernelConnectorPlugin: JupyterFrontEndPlugin<IKernelConnectorFactory> = {
  * Prompt cell manager plugin.
  */
 const promptCellManagerPlugin: JupyterFrontEndPlugin<IPromptCellManager> = {
-  id: 'evals-jup:prompt-cell-manager',
+  id: 'jupyvibe:prompt-cell-manager',
   description: 'Manages AI prompt cells',
   autoStart: true,
   requires: [IExtensionSettings],
@@ -110,10 +110,10 @@ const mainPlugin: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null,
     mainMenu: IMainMenu | null
   ) => {
-    console.log('Evals-Jup extension activated');
+    console.log('Jupyvibe extension activated');
 
     // Command to insert a new prompt cell
-    const insertPromptCommand = 'evals-jup:insert-prompt-cell';
+    const insertPromptCommand = 'jupyvibe:insert-prompt-cell';
     app.commands.addCommand(insertPromptCommand, {
       label: 'Insert AI Prompt Cell',
       caption: 'Insert a new AI prompt cell below the current cell',
@@ -127,7 +127,7 @@ const mainPlugin: JupyterFrontEndPlugin<void> = {
     });
 
     // Command to run prompt cell
-    const runPromptCommand = 'evals-jup:run-prompt';
+    const runPromptCommand = 'jupyvibe:run-prompt';
     app.commands.addCommand(runPromptCommand, {
       label: 'Run AI Prompt',
       caption: 'Execute the current prompt cell',
@@ -158,13 +158,13 @@ const mainPlugin: JupyterFrontEndPlugin<void> = {
     app.commands.addKeyBinding({
       command: runPromptCommand,
       keys: ['Shift Enter'],
-      selector: '.jp-Notebook.jp-mod-editMode .jp-Cell.evals-jup-prompt-cell'
+      selector: '.jp-Notebook.jp-mod-editMode .jp-Cell.jupyvibe-prompt-cell'
     });
 
     app.commands.addKeyBinding({
       command: runPromptCommand,
       keys: ['Shift Enter'],
-      selector: '.jp-Notebook.jp-mod-commandMode .jp-Cell.jp-mod-selected.evals-jup-prompt-cell'
+      selector: '.jp-Notebook.jp-mod-commandMode .jp-Cell.jp-mod-selected.jupyvibe-prompt-cell'
     });
 
     // Add to command palette
@@ -204,11 +204,11 @@ const mainPlugin: JupyterFrontEndPlugin<void> = {
           tooltip: 'Insert AI Prompt Cell (Cmd/Ctrl+Shift+P)',
           label: 'AI Prompt'
         });
-        panel.toolbar.insertAfter('cellType', 'evals-jup-insert', button);
+        panel.toolbar.insertAfter('cellType', 'jupyvibe-insert', button);
         
         // Add model picker to toolbar
         const modelPicker = new ModelPickerWidget(settings);
-        panel.toolbar.insertAfter('evals-jup-insert', 'evals-jup-model-picker', modelPicker);
+        panel.toolbar.insertAfter('jupyvibe-insert', 'jupyvibe-model-picker', modelPicker);
         
         // Use requestAnimationFrame to wait for cells to be rendered
         requestAnimationFrame(() => {
@@ -238,7 +238,7 @@ const mainPlugin: JupyterFrontEndPlugin<void> = {
  * Plugin that replaces the cell type dropdown with one that includes "Prompt".
  */
 const cellTypeSwitcherPlugin: JupyterFrontEndPlugin<void> = {
-  id: 'evals-jup:cell-type-switcher',
+  id: 'jupyvibe:cell-type-switcher',
   description: 'Adds Prompt option to cell type dropdown',
   autoStart: true,
   requires: [IToolbarWidgetRegistry, IPromptCellManager, INotebookWidgetFactory],
@@ -250,18 +250,18 @@ const cellTypeSwitcherPlugin: JupyterFrontEndPlugin<void> = {
     _notebookWidgetFactory: NotebookWidgetFactory.IFactory,
     translator: ITranslator | null
   ) => {
-    console.log('[evals-jup] Registering custom cell type switcher (after notebook widget factory)');
+    console.log('[jupyvibe] Registering custom cell type switcher (after notebook widget factory)');
     
     const oldFactory = toolbarRegistry.addFactory<NotebookPanel>(
       'Notebook',
       'cellType',
       (panel: NotebookPanel) => {
-        console.log('[evals-jup] Creating CustomCellTypeSwitcher for panel:', panel.id);
+        console.log('[jupyvibe] Creating CustomCellTypeSwitcher for panel:', panel.id);
         return new CustomCellTypeSwitcher(panel, promptCellManager, translator ?? undefined);
       }
     );
     
-    console.log('[evals-jup] Replaced cellType factory, old factory was:', oldFactory ? 'present' : 'none');
+    console.log('[jupyvibe] Replaced cellType factory, old factory was:', oldFactory ? 'present' : 'none');
   }
 };
 

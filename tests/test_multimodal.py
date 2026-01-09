@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 def test_build_system_prompt_with_images():
     """Test system prompt building with image context (OpenAI format)."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -44,7 +44,7 @@ def test_build_system_prompt_with_images():
 
 def test_build_system_prompt_with_multiple_images():
     """Test system prompt with multiple images from different sources."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -84,7 +84,7 @@ def test_build_system_prompt_with_multiple_images():
 
 def test_build_system_prompt_image_descriptions():
     """Test that image content has descriptions with source and cell info."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -113,7 +113,7 @@ def test_build_system_prompt_image_descriptions():
 
 def test_build_system_prompt_no_images():
     """Test that system prompt works normally without images."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -139,7 +139,7 @@ def test_build_system_prompt_no_images():
 
 def test_build_system_prompt_images_with_none():
     """Test that system prompt handles None images parameter."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -162,7 +162,7 @@ def test_build_system_prompt_images_with_none():
 
 def test_image_block_structure_openai_format():
     """Test the exact structure of image content for OpenAI/LiteLLM API."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -194,7 +194,7 @@ def test_image_block_structure_openai_format():
 
 def test_gif_image_support():
     """Test that GIF images are correctly handled."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass

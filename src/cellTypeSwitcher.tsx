@@ -13,8 +13,8 @@ import type { IPromptCellManager } from './tokens';
 
 const TOOLBAR_CELLTYPE_CLASS = 'jp-Notebook-toolbarCellType';
 const TOOLBAR_CELLTYPE_DROPDOWN_CLASS = 'jp-Notebook-toolbarCellTypeDropdown';
-const PROMPT_METADATA_KEY = 'evals_jup';
-const PROMPT_CELL_CLASS = 'evals-jup-prompt-cell';
+const PROMPT_METADATA_KEY = 'jupyvibe';
+const PROMPT_CELL_CLASS = 'jupyvibe-prompt-cell';
 
 interface PromptMetadata {
   isPromptCell: boolean;

@@ -104,7 +104,7 @@ class MockHandler:
 @pytest.fixture
 def handler():
     """Create a mock handler with PromptHandler methods bound."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
 
     h = MockHandler()
     h._build_system_prompt = PromptHandler._build_system_prompt.__get__(h, MockHandler)
@@ -143,9 +143,9 @@ class TestUnknownToolRejected:
         mock_execute_tool = AsyncMock(return_value={"status": "success", "result": {"type": "text", "content": "42"}})
 
         with (
-            patch("evals_jup.handlers.HAS_LITELLM", True),
-            patch("evals_jup.handlers.litellm") as mock_litellm,
-            patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
+            patch("jupyvibe.handlers.HAS_LITELLM", True),
+            patch("jupyvibe.handlers.litellm") as mock_litellm,
+            patch("jupyvibe.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
             mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()
@@ -183,9 +183,9 @@ class TestInvalidToolInputJSON:
         mock_execute_tool = AsyncMock(return_value={"status": "success", "result": {"type": "text", "content": "42"}})
 
         with (
-            patch("evals_jup.handlers.HAS_LITELLM", True),
-            patch("evals_jup.handlers.litellm") as mock_litellm,
-            patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
+            patch("jupyvibe.handlers.HAS_LITELLM", True),
+            patch("jupyvibe.handlers.litellm") as mock_litellm,
+            patch("jupyvibe.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
             mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()
@@ -226,9 +226,9 @@ class TestInvalidToolArgumentName:
         )
 
         with (
-            patch("evals_jup.handlers.HAS_LITELLM", True),
-            patch("evals_jup.handlers.litellm") as mock_litellm,
-            patch("evals_jup.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
+            patch("jupyvibe.handlers.HAS_LITELLM", True),
+            patch("jupyvibe.handlers.litellm") as mock_litellm,
+            patch("jupyvibe.handlers.PromptHandler._execute_tool_in_kernel", mock_execute_tool),
         ):
             mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
             await handler.post()

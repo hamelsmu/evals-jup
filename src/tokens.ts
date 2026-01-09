@@ -1,5 +1,5 @@
 /**
- * Dependency injection tokens for evals-jup extension.
+ * Dependency injection tokens for jupyvibe extension.
  * 
  * Following JupyterLab's plugin architecture pattern, these tokens
  * allow loose coupling between components and enable testing/mocking.
@@ -278,7 +278,7 @@ export interface IExtensionSettings {
  * Token for the kernel connector factory.
  */
 export const IKernelConnectorFactory = new Token<IKernelConnectorFactory>(
-  'evals-jup:IKernelConnectorFactory',
+  'jupyvibe:IKernelConnectorFactory',
   'Factory for creating kernel connectors'
 );
 
@@ -293,7 +293,7 @@ export interface IKernelConnectorFactory {
  * Token for the prompt cell manager.
  */
 export const IPromptCellManager = new Token<IPromptCellManager>(
-  'evals-jup:IPromptCellManager',
+  'jupyvibe:IPromptCellManager',
   'Manages prompt cells within notebooks'
 );
 
@@ -301,7 +301,7 @@ export const IPromptCellManager = new Token<IPromptCellManager>(
  * Token for the prompt model factory.
  */
 export const IPromptModelFactory = new Token<IPromptModelFactory>(
-  'evals-jup:IPromptModelFactory',
+  'jupyvibe:IPromptModelFactory',
   'Factory for creating prompt models'
 );
 
@@ -316,6 +316,6 @@ export interface IPromptModelFactory {
  * Token for extension settings.
  */
 export const IExtensionSettings = new Token<IExtensionSettings>(
-  'evals-jup:IExtensionSettings',
+  'jupyvibe:IExtensionSettings',
   'Extension configuration settings'
 );

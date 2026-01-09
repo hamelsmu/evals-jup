@@ -1,8 +1,8 @@
-# evals-jup: AI-Powered Prompt Cells for JupyterLab
+# jupyvibe: AI-Powered Prompt Cells for JupyterLab
 
 A JupyterLab extension that adds AI-powered prompt cells with special syntax for referencing kernel variables and exposing functions as AI-callable tools.
 
-[![CI](https://github.com/hamelsmu/evals-jup/actions/workflows/ci.yml/badge.svg)](https://github.com/hamelsmu/evals-jup/actions/workflows/ci.yml)
+[![CI](https://github.com/hamelsmu/jupyvibe/actions/workflows/ci.yml/badge.svg)](https://github.com/hamelsmu/jupyvibe/actions/workflows/ci.yml)
 ![JupyterLab 4.x](https://img.shields.io/badge/JupyterLab-4.x-blue)
 ![Python 3.8+](https://img.shields.io/badge/Python-3.8+-green)
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow)
@@ -30,14 +30,14 @@ This project draws inspiration from several AI-infused notebook environments:
 ### 1. Install
 
 ```bash
-pip install evals_jup
+pip install jupyvibe
 ```
 
 Verify the extension is installed:
 
 ```bash
-jupyter labextension list | grep evals-jup
-# Should show: evals-jup v0.1.0 enabled OK
+jupyter labextension list | grep jupyvibe
+# Should show: jupyvibe v0.1.0 enabled OK
 ```
 
 ### 2. Set your API key
@@ -133,7 +133,7 @@ The AI can call these functions, see the results, and incorporate them into its 
 
 ## Built-in File Tools
 
-evals-jup includes [fastcore.tools](https://github.com/AnswerDotAI/fastcore) for file exploration and editing:
+jupyvibe includes [fastcore.tools](https://github.com/AnswerDotAI/fastcore) for file exploration and editing:
 
 ```python
 from fastcore.tools import view, rg, sed, create, str_replace, insert
@@ -173,11 +173,11 @@ The AI will:
 
 ### Prompt Cells
 
-Prompt cells are markdown cells with special metadata (`evals_jup.isPromptCell: true`). They're visually distinguished with a colored border and "AI Prompt" prefix.
+Prompt cells are markdown cells with special metadata (`jupyvibe.isPromptCell: true`). They're visually distinguished with a colored border and "AI Prompt" prefix.
 
 ### Context Gathering
 
-When you execute a prompt cell, evals-jup:
+When you execute a prompt cell, jupyvibe:
 
 1. **Collects preceding code** - All code cells above the prompt are gathered
 2. **Resolves `` $`variables` ``** - Queries the kernel for each variable's type and repr
@@ -243,7 +243,7 @@ To change the model, edit the cell metadata:
 
 ```json
 {
-  "evals_jup": {
+  "jupyvibe": {
     "isPromptCell": true,
     "model": "claude-3-haiku-20240307"
   }
@@ -253,8 +253,8 @@ To change the model, edit the cell metadata:
 ## Development
 
 ```bash
-git clone https://github.com/hamelsmu/evals-jup.git
-cd evals-jup
+git clone https://github.com/hamelsmu/jupyvibe.git
+cd jupyvibe
 just install   # Install in dev mode with live reload
 just test      # Run all tests
 just lab       # Start JupyterLab
@@ -266,7 +266,7 @@ Requires [just](https://github.com/casey/just) (`brew install just` on macOS).
 ## Architecture
 
 ```
-evals-jup/
+jupyvibe/
 ├── src/                        # TypeScript frontend
 │   ├── index.ts                # Extension entry point
 │   ├── promptCell.ts           # Prompt cell management
@@ -274,7 +274,7 @@ evals-jup/
 │   ├── promptParser.ts         # $`variable` and &`function` parsing
 │   ├── toolResultRenderer.ts   # Tool result formatting
 │   └── *.test.ts               # Jest tests
-├── evals_jup/                  # Python backend
+├── jupyvibe/                   # Python backend
 │   ├── handlers.py             # API endpoints
 │   └── __init__.py             # Server extension setup
 ├── tests/                      # Python test suite
@@ -286,19 +286,19 @@ evals-jup/
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/evals-jup/prompt` | POST | Stream AI response with tool loop |
-| `/evals-jup/tool-execute` | POST | Execute a single tool call |
-| `/evals-jup/models` | GET | List available models |
+| `/jupyvibe/prompt` | POST | Stream AI response with tool loop |
+| `/jupyvibe/tool-execute` | POST | Execute a single tool call |
+| `/jupyvibe/models` | GET | List available models |
 
 ## Troubleshooting
 
 ### Extension not loading after install
 
-If you installed evals-jup but it's not working:
+If you installed jupyvibe but it's not working:
 
 ```bash
 # Verify extension is installed
-jupyter labextension list | grep evals-jup
+jupyter labextension list | grep jupyvibe
 
 # Restart JupyterLab (required after first install)
 # Close JupyterLab and run:

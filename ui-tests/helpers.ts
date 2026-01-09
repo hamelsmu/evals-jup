@@ -1,5 +1,5 @@
 /**
- * Evals-Jup E2E testing helpers.
+ * Jupyvibe E2E testing helpers.
  * 
  * These utilities centralize common patterns and reduce test brittleness
  * by providing semantic helpers instead of raw DOM/keyboard operations.
@@ -7,7 +7,7 @@
 
 import { expect, IJupyterLabPageFixture } from '@jupyterlab/galata';
 
-export const PROMPT_CELL_CLASS = 'evals-jup-prompt-cell';
+export const PROMPT_CELL_CLASS = 'jupyvibe-prompt-cell';
 
 /**
  * Cell state information returned by getNotebookState.
@@ -35,7 +35,7 @@ export async function getNotebookState(page: IJupyterLabPageFixture): Promise<Ce
     }
     const notebook = panel.content;
     return notebook.widgets.map((cell: any, index: number) => {
-      const metadata = cell.model.getMetadata('evals_jup') || {};
+      const metadata = cell.model.getMetadata('jupyvibe') || {};
       return {
         index,
         type: cell.model.type,
@@ -55,7 +55,7 @@ export async function getNotebookState(page: IJupyterLabPageFixture): Promise<Ce
  */
 export async function dumpNotebookState(page: IJupyterLabPageFixture, label: string): Promise<void> {
   const state = await getNotebookState(page);
-  console.log(`[evals-jup][${label}] Notebook state:`, JSON.stringify(state, null, 2));
+  console.log(`[jupyvibe][${label}] Notebook state:`, JSON.stringify(state, null, 2));
 }
 
 /**
@@ -112,7 +112,7 @@ export async function executeCommand(page: IJupyterLabPageFixture, command: stri
  */
 export async function insertPromptCell(page: IJupyterLabPageFixture): Promise<void> {
   const countBefore = await page.locator(`.${PROMPT_CELL_CLASS}`).count();
-  await executeCommand(page, 'evals-jup:insert-prompt-cell');
+  await executeCommand(page, 'jupyvibe:insert-prompt-cell');
   await expect(page.locator(`.${PROMPT_CELL_CLASS}`)).toHaveCount(countBefore + 1, { timeout: 10000 });
 }
 

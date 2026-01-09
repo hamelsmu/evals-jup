@@ -1,12 +1,12 @@
-# evals-jup code review (principal engineer perspective)
+# jupyvibe code review (principal engineer perspective)
 
 Date: 2025-12-31  
-Repo: `evals-jup` (JupyterLab extension + Jupyter Server extension)
+Repo: `jupyvibe` (JupyterLab extension + Jupyter Server extension)
 
 ## Scope
 
 - TypeScript frontend (`src/`): prompt cells, context gathering, SSE client, UI affordances.
-- Python backend (`evals_jup/`): Tornado handlers, Anthropic streaming, tool execution via kernel.
+- Python backend (`jupyvibe/`): Tornado handlers, Anthropic streaming, tool execution via kernel.
 - Tests/tooling/CI: `tests/`, `ui-tests/`, `justfile`, GitHub Actions.
 
 ## What I ran
@@ -32,13 +32,13 @@ The following P0 issues from the original review have been addressed:
 ### P1.1 Request/response contract and input validation should be explicit and consistent
 
 Where:
-- `evals_jup/handlers.py:24` (PromptHandler input parsing)
-- `evals_jup/handlers.py:584` (ToolExecuteHandler input parsing)
+- `jupyvibe/handlers.py:24` (PromptHandler input parsing)
+- `jupyvibe/handlers.py:584` (ToolExecuteHandler input parsing)
 - `src/promptModel.ts:103` (frontend error handling expects JSON on non-2xx)
 
 Issues:
 - `PromptHandler` validates `data` is a dict and returns `400` for invalid JSON body; `ToolExecuteHandler` does not (it assumes `data.get` exists).
-- `PromptHandler` sets SSE headers early (`evals_jup/handlers.py:46`) then sometimes replies with JSON errors. That's awkward for clients and proxies.
+- `PromptHandler` sets SSE headers early (`jupyvibe/handlers.py:46`) then sometimes replies with JSON errors. That's awkward for clients and proxies.
 
 Suggested direction:
 - Validate before setting SSE headers:
@@ -51,7 +51,7 @@ Suggested direction:
 ### P1.2 Tool execution result parsing is brittle when tools print to stdout
 
 Where:
-- `evals_jup/handlers.py:400` and `evals_jup/handlers.py:797` style: output buffer joined then `json.loads(result_text)`
+- `jupyvibe/handlers.py:400` and `jupyvibe/handlers.py:797` style: output buffer joined then `json.loads(result_text)`
 
 Problem:
 - Kernel execution collects *all* stdout/execute_result content. If user tool prints anything before the final JSON payload, JSON parsing fails and you fall back to "text". That can:
@@ -95,8 +95,8 @@ Suggested fix:
 ### P2.1 Tool loop semantics: clarify `max_steps` meaning and edge cases
 
 Where:
-- `evals_jup/handlers.py:42` (`max_steps = int(...)`)
-- `evals_jup/handlers.py:145` (`steps >= max_steps`)
+- `jupyvibe/handlers.py:42` (`max_steps = int(...)`)
+- `jupyvibe/handlers.py:145` (`steps >= max_steps`)
 
 Questions:
 - Is `max_steps` "number of tool-iterations" or "number of tool calls"? Right now it's loop iterations, but each iteration can run multiple tools (`execute ALL tool use blocks`).
@@ -110,7 +110,7 @@ Suggested fix:
 
 Where:
 - `src/promptCell.ts:257` (`preceding_code: precedingCode.join(...)`)
-- `evals_jup/handlers.py:466+` (system prompt includes full preceding code)
+- `jupyvibe/handlers.py:466+` (system prompt includes full preceding code)
 
 Suggested fix:
 - Add a context budget strategy:
@@ -149,7 +149,7 @@ Suggested fix:
 ### P2.5 Multi-tenant safety (kernel_id authorization)
 
 Where:
-- `evals_jup/handlers.py:67` and `evals_jup/handlers.py:623`
+- `jupyvibe/handlers.py:67` and `jupyvibe/handlers.py:623`
 
 Risk:
 - If this extension is used in any multi-user Jupyter environment, accepting arbitrary `kernel_id` without verifying ownership/session could allow cross-kernel access.

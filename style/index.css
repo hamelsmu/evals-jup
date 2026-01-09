@@ -1,19 +1,19 @@
 /**
- * Evals-Jup extension styles
+ * Jupyvibe extension styles
  */
 
 /* Prompt cell styling */
-.evals-jup-prompt-cell {
+.jupyvibe-prompt-cell {
   border-left: 4px solid var(--jp-brand-color1, #1976d2);
   background-color: var(--jp-layout-color1, #ffffff);
   margin: 8px 0;
 }
 
-.evals-jup-prompt-cell .jp-Cell-inputWrapper {
+.jupyvibe-prompt-cell .jp-Cell-inputWrapper {
   background-color: rgba(25, 118, 210, 0.05);
 }
 
-.evals-jup-prompt-cell::before {
+.jupyvibe-prompt-cell::before {
   content: '🤖 AI Prompt';
   display: block;
   font-size: 11px;
@@ -25,17 +25,17 @@
 }
 
 /* Prompt output cell styling */
-.evals-jup-prompt-output {
+.jupyvibe-prompt-output {
   border-left: 4px solid var(--jp-success-color1, #4caf50);
   background-color: var(--jp-layout-color1, #ffffff);
   margin: 0 0 8px 0;
 }
 
-.evals-jup-prompt-output .jp-Cell-inputWrapper {
+.jupyvibe-prompt-output .jp-Cell-inputWrapper {
   background-color: rgba(76, 175, 80, 0.05);
 }
 
-.evals-jup-prompt-output::before {
+.jupyvibe-prompt-output::before {
   content: '💬 AI Response';
   display: block;
   font-size: 11px;
@@ -47,7 +47,7 @@
 }
 
 /* Variable reference highlighting */
-.evals-jup-variable-ref {
+.jupyvibe-variable-ref {
   color: var(--jp-warn-color1, #ff9800);
   font-weight: 600;
   background-color: rgba(255, 152, 0, 0.1);
@@ -56,7 +56,7 @@
 }
 
 /* Function reference highlighting */
-.evals-jup-function-ref {
+.jupyvibe-function-ref {
   color: var(--jp-info-color1, #00bcd4);
   font-weight: 600;
   background-color: rgba(0, 188, 212, 0.1);
@@ -65,7 +65,7 @@
 }
 
 /* Loading indicator */
-.evals-jup-loading {
+.jupyvibe-loading {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -74,25 +74,25 @@
   padding: 8px 0;
 }
 
-.evals-jup-loading::before {
+.jupyvibe-loading::before {
   content: '';
   width: 14px;
   height: 14px;
   border: 2px solid var(--jp-border-color2, #e0e0e0);
   border-top-color: var(--jp-brand-color1, #1976d2);
   border-radius: 50%;
-  animation: evals-jup-spin 0.8s linear infinite;
+  animation: jupyvibe-spin 0.8s linear infinite;
   flex-shrink: 0;
 }
 
-@keyframes evals-jup-spin {
+@keyframes jupyvibe-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
 /* Convert to Cells button container */
-.evals-jup-convert-button-container {
+.jupyvibe-convert-button-container {
   display: flex;
   justify-content: flex-end;
   padding: 6px 12px;
@@ -100,7 +100,7 @@
   border-top: 1px solid var(--jp-border-color2, #e0e0e0);
 }
 
-.evals-jup-convert-button {
+.jupyvibe-convert-button {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -115,61 +115,61 @@
   transition: all 0.1s ease;
 }
 
-.evals-jup-convert-button:hover {
+.jupyvibe-convert-button:hover {
   background: var(--jp-layout-color3, #eee);
   border-color: var(--jp-brand-color1, #1976d2);
 }
 
-.evals-jup-convert-button:active {
+.jupyvibe-convert-button:active {
   background: var(--jp-brand-color3, #bbdefb);
 }
 
 /* Dark theme adjustments */
-[data-jp-theme-light='false'] .evals-jup-prompt-cell {
+[data-jp-theme-light='false'] .jupyvibe-prompt-cell {
   background-color: var(--jp-layout-color1, #1e1e1e);
 }
 
-[data-jp-theme-light='false'] .evals-jup-prompt-cell .jp-Cell-inputWrapper {
+[data-jp-theme-light='false'] .jupyvibe-prompt-cell .jp-Cell-inputWrapper {
   background-color: rgba(25, 118, 210, 0.1);
 }
 
-[data-jp-theme-light='false'] .evals-jup-prompt-output {
+[data-jp-theme-light='false'] .jupyvibe-prompt-output {
   background-color: var(--jp-layout-color1, #1e1e1e);
 }
 
-[data-jp-theme-light='false'] .evals-jup-prompt-output .jp-Cell-inputWrapper {
+[data-jp-theme-light='false'] .jupyvibe-prompt-output .jp-Cell-inputWrapper {
   background-color: rgba(76, 175, 80, 0.1);
 }
 
-[data-jp-theme-light='false'] .evals-jup-convert-button-container {
+[data-jp-theme-light='false'] .jupyvibe-convert-button-container {
   background: var(--jp-layout-color2, #2d2d2d);
 }
 
-[data-jp-theme-light='false'] .evals-jup-convert-button {
+[data-jp-theme-light='false'] .jupyvibe-convert-button {
   color: var(--jp-ui-font-color1, #e0e0e0);
   background: var(--jp-layout-color1, #1e1e1e);
   border-color: var(--jp-border-color1, #555);
 }
 
-[data-jp-theme-light='false'] .evals-jup-convert-button:hover {
+[data-jp-theme-light='false'] .jupyvibe-convert-button:hover {
   background: var(--jp-layout-color3, #3d3d3d);
 }
 
 /* Model Picker styles */
-.evals-jup-model-picker-widget {
+.jupyvibe-model-picker-widget {
   display: flex;
   align-items: center;
   margin: 0 4px;
 }
 
-.evals-jup-model-picker {
+.jupyvibe-model-picker {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.evals-jup-provider-select,
-.evals-jup-model-select {
+.jupyvibe-provider-select,
+.jupyvibe-model-select {
   height: 24px;
   padding: 0 6px;
   font-size: 12px;
@@ -180,34 +180,34 @@
   cursor: pointer;
 }
 
-.evals-jup-provider-select {
+.jupyvibe-provider-select {
   min-width: 90px;
 }
 
-.evals-jup-model-select {
+.jupyvibe-model-select {
   min-width: 180px;
   max-width: 280px;
 }
 
-.evals-jup-provider-select:hover,
-.evals-jup-model-select:hover {
+.jupyvibe-provider-select:hover,
+.jupyvibe-model-select:hover {
   border-color: var(--jp-brand-color1, #1976d2);
 }
 
-.evals-jup-provider-select:focus,
-.evals-jup-model-select:focus {
+.jupyvibe-provider-select:focus,
+.jupyvibe-model-select:focus {
   outline: none;
   border-color: var(--jp-brand-color1, #1976d2);
   box-shadow: 0 0 0 1px var(--jp-brand-color1, #1976d2);
 }
 
-.evals-jup-model-picker-loading {
+.jupyvibe-model-picker-loading {
   font-size: 11px;
   color: var(--jp-ui-font-color2, #666);
   padding: 0 8px;
 }
 
-.evals-jup-model-picker-error {
+.jupyvibe-model-picker-error {
   font-size: 11px;
   color: var(--jp-error-color1, #d32f2f);
   padding: 0 8px;
@@ -215,8 +215,8 @@
 }
 
 /* Dark theme */
-[data-jp-theme-light='false'] .evals-jup-provider-select,
-[data-jp-theme-light='false'] .evals-jup-model-select {
+[data-jp-theme-light='false'] .jupyvibe-provider-select,
+[data-jp-theme-light='false'] .jupyvibe-model-select {
   background: var(--jp-layout-color2, #2d2d2d);
   color: var(--jp-ui-font-color1, #e0e0e0);
   border-color: var(--jp-border-color1, #555);

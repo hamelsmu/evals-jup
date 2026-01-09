@@ -1,4 +1,4 @@
-"""Shared fixtures and pytest configuration for evals-jup test suite."""
+"""Shared fixtures and pytest configuration for jupyvibe test suite."""
 
 import os
 

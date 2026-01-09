@@ -13,7 +13,7 @@ import httpx
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from evals_jup.handlers import ToolExecuteHandler
+from jupyvibe.handlers import ToolExecuteHandler
 
 # Configuration for live kernel tests
 BASE_URL = os.environ.get("JUPYTER_BASE_URL", "http://localhost:8888")
@@ -297,7 +297,7 @@ def tool_execute_request(kernel_id: str, name: str, input_args: dict, allowed_to
     
     with httpx.Client(timeout=30.0) as client:
         resp = client.post(
-            f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
             json=payload
         )
     

@@ -1,6 +1,6 @@
 """Live integration tests for tool execution with a real Jupyter kernel.
 
-These tests require a running JupyterLab server with the evals-jup extension.
+These tests require a running JupyterLab server with the jupyvibe extension.
 Run with: pytest tests/test_live_kernel.py -v
 
 Start the server first:
@@ -152,7 +152,7 @@ print("Test functions defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "add",
                     "input": {"x": 5, "y": 3},
@@ -172,7 +172,7 @@ print("Test functions defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "greet",
                     "input": {"name": "World"},
@@ -191,7 +191,7 @@ print("Test functions defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "get_data",
                     "input": {},
@@ -210,7 +210,7 @@ print("Test functions defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "nonexistent_function",
                     "input": {},
@@ -229,7 +229,7 @@ print("Test functions defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "add",
                     "input": {"x": 1, "y": 2},
@@ -278,7 +278,7 @@ print("DataFrame function defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "get_dataframe",
                     "input": {},
@@ -330,7 +330,7 @@ print("Matplotlib function defined")
         
         with httpx.Client(timeout=30.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/tool-execute?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/tool-execute?token={TOKEN}",
                 json={
                     "name": "make_plot",
                     "input": {},

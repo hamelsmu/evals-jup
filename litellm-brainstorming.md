@@ -75,7 +75,7 @@ def get_vision_models_by_provider() -> dict[str, list[dict]]:
 
 ### API Endpoint
 
-New endpoint: `GET /evals-jup/models`
+New endpoint: `GET /jupyvibe/models`
 
 ```python
 class ModelsHandler(APIHandler):
@@ -190,14 +190,14 @@ def convert_image_to_litellm_format(anthropic_image: dict) -> dict:
 
 1. Add `litellm` to dependencies in `pyproject.toml`
 2. Create `get_vision_models_by_provider()` utility
-3. Add `/evals-jup/models` endpoint
+3. Add `/jupyvibe/models` endpoint
 4. Modify `PromptHandler` to use `litellm.completion()` instead of `anthropic.Anthropic()`
 5. Convert image format in `_build_system_prompt()`
 
 ### Phase 2: Frontend Model Picker
 
 1. Create `ModelPicker` component with provider + model dropdowns
-2. Fetch models from `/evals-jup/models` on mount
+2. Fetch models from `/jupyvibe/models` on mount
 3. Store selected model in notebook metadata
 4. Wire up to prompt cell execution
 
@@ -227,7 +227,7 @@ No changes needed - already using `ANTHROPIC_API_KEY`.
 
 ### Test Connection Implementation
 
-Backend endpoint: `POST /evals-jup/test-connection`
+Backend endpoint: `POST /jupyvibe/test-connection`
 
 ```python
 class TestConnectionHandler(APIHandler):

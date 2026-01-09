@@ -1,6 +1,6 @@
-"""Tests for fastcore.tools integration with evals-jup.
+"""Tests for fastcore.tools integration with jupyvibe.
 
-These tests verify that fastcore.tools functions work correctly with evals-jup's
+These tests verify that fastcore.tools functions work correctly with jupyvibe's
 tool calling infrastructure. The tests check:
 1. Function introspection produces valid tool schemas
 2. Tool building creates proper Anthropic-compatible definitions
@@ -75,10 +75,10 @@ class TestFastcoreToolsMetadata:
 
 
 class TestFunctionIntrospection:
-    """Test that evals-jup's introspection logic works on fastcore.tools."""
+    """Test that jupyvibe's introspection logic works on fastcore.tools."""
 
     def _get_function_info(self, func):
-        """Replicate evals-jup's kernel introspection logic for a function."""
+        """Replicate jupyvibe's kernel introspection logic for a function."""
         sig = str(inspect.signature(func))
         doc = inspect.getdoc(func) or "No documentation"
         params = {}
@@ -146,7 +146,7 @@ class TestToolSchemaBuilding:
     """Test that tool schemas are built correctly for Anthropic API."""
 
     def _build_tool_schema(self, func_info):
-        """Replicate evals-jup's tool schema building logic."""
+        """Replicate jupyvibe's tool schema building logic."""
         params = func_info.get("parameters", {})
         return {
             "name": func_info["name"],
@@ -404,7 +404,7 @@ class TestEndToEndToolFlow:
     """Test the complete flow from prompt to tool execution."""
 
     def _simulate_tool_call(self, func, args_dict):
-        """Simulate how evals-jup would call a tool."""
+        """Simulate how jupyvibe would call a tool."""
         return func(**args_dict)
 
     def test_view_tool_call_simulation(self, tmp_path):

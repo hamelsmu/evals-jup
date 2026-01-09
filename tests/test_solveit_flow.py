@@ -60,7 +60,7 @@ async def test_tool_call_flow():
     async with httpx.AsyncClient(timeout=60.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "Please use the multiply tool to calculate 7 times 8 and tell me the result.",
                 "context": {
@@ -117,7 +117,7 @@ async def test_tool_with_context_variables():
     async with httpx.AsyncClient(timeout=60.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "Use the add tool to add my_number and other_number together.",
                 "context": {
@@ -178,7 +178,7 @@ async def test_multiple_tools_available():
     async with httpx.AsyncClient(timeout=60.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "What is 100 divided by 4? Use the appropriate tool.",
                 "context": {
@@ -219,7 +219,7 @@ async def test_no_tool_when_not_needed():
     async with httpx.AsyncClient(timeout=60.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "What is the capital of France?",
                 "context": {

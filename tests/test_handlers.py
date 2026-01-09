@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 def test_build_system_prompt():
     """Test the system prompt building logic."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -72,7 +72,7 @@ def test_build_system_prompt():
 
 def test_build_tools():
     """Test the tool building logic (OpenAI format)."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -104,7 +104,7 @@ def test_build_tools():
 
 def test_build_messages():
     """Test the conversation history message building logic."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -168,7 +168,7 @@ def test_build_messages():
 
 def test_provider_display_names():
     """Test provider display names (fast, no model iteration)."""
-    from evals_jup.models import get_provider_display_names
+    from jupyvibe.models import get_provider_display_names
     
     providers = get_provider_display_names()
     assert providers == {

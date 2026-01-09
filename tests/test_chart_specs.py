@@ -13,7 +13,7 @@ def _blocks_to_text(blocks: list) -> str:
 
 def test_build_system_prompt_with_vegalite_spec():
     """Test system prompt building with Vega-Lite (Altair) chart spec."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -53,7 +53,7 @@ def test_build_system_prompt_with_vegalite_spec():
 
 def test_build_system_prompt_with_plotly_spec():
     """Test system prompt building with Plotly chart spec."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -87,7 +87,7 @@ def test_build_system_prompt_with_plotly_spec():
 
 def test_build_system_prompt_with_multiple_chart_specs():
     """Test system prompt with multiple chart specs from different libraries."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -135,7 +135,7 @@ def test_build_system_prompt_with_multiple_chart_specs():
 
 def test_build_system_prompt_with_both_images_and_charts():
     """Test system prompt with both images and chart specs."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -180,7 +180,7 @@ def test_build_system_prompt_with_both_images_and_charts():
 
 def test_build_system_prompt_no_chart_specs():
     """Test that system prompt works normally without chart specs."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -202,7 +202,7 @@ def test_build_system_prompt_no_chart_specs():
 
 def test_build_system_prompt_chart_specs_none():
     """Test that system prompt handles None chart_specs parameter."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -221,7 +221,7 @@ def test_build_system_prompt_chart_specs_none():
 
 def test_large_chart_spec_truncation():
     """Test that large chart specs are truncated to avoid token overflow."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass
@@ -256,7 +256,7 @@ def test_large_chart_spec_truncation():
 
 def test_chart_spec_type_labels():
     """Test that chart type labels are formatted nicely."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
     
     class MockHandler:
         pass

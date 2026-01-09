@@ -828,9 +828,9 @@ def setup_handlers(web_app):
     base_url = web_app.settings["base_url"]
     
     handlers = [
-        (url_path_join(base_url, "evals-jup", "prompt"), PromptHandler),
-        (url_path_join(base_url, "evals-jup", "tool-execute"), ToolExecuteHandler),
-        (url_path_join(base_url, "evals-jup", "models"), ModelsHandler),
-        (url_path_join(base_url, "evals-jup", "test-connection"), TestConnectionHandler),
+        (url_path_join(base_url, "jupyvibe", "prompt"), PromptHandler),
+        (url_path_join(base_url, "jupyvibe", "tool-execute"), ToolExecuteHandler),
+        (url_path_join(base_url, "jupyvibe", "models"), ModelsHandler),
+        (url_path_join(base_url, "jupyvibe", "test-connection"), TestConnectionHandler),
     ]
     web_app.add_handlers(host_pattern, handlers)

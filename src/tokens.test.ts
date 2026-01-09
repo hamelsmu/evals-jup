@@ -12,7 +12,7 @@ import {
 describe('DI Tokens', () => {
   describe('IKernelConnectorFactory token', () => {
     it('should have correct id', () => {
-      expect(IKernelConnectorFactory.name).toBe('evals-jup:IKernelConnectorFactory');
+      expect(IKernelConnectorFactory.name).toBe('jupyvibe:IKernelConnectorFactory');
     });
     
     it('should have description', () => {
@@ -22,7 +22,7 @@ describe('DI Tokens', () => {
   
   describe('IPromptCellManager token', () => {
     it('should have correct id', () => {
-      expect(IPromptCellManager.name).toBe('evals-jup:IPromptCellManager');
+      expect(IPromptCellManager.name).toBe('jupyvibe:IPromptCellManager');
     });
     
     it('should have description', () => {
@@ -32,7 +32,7 @@ describe('DI Tokens', () => {
   
   describe('IPromptModelFactory token', () => {
     it('should have correct id', () => {
-      expect(IPromptModelFactory.name).toBe('evals-jup:IPromptModelFactory');
+      expect(IPromptModelFactory.name).toBe('jupyvibe:IPromptModelFactory');
     });
     
     it('should have description', () => {
@@ -42,7 +42,7 @@ describe('DI Tokens', () => {
   
   describe('IExtensionSettings token', () => {
     it('should have correct id', () => {
-      expect(IExtensionSettings.name).toBe('evals-jup:IExtensionSettings');
+      expect(IExtensionSettings.name).toBe('jupyvibe:IExtensionSettings');
     });
     
     it('should have description', () => {

@@ -1,5 +1,5 @@
 /**
- * Galata E2E tests for evals-jup JupyterLab extension.
+ * Galata E2E tests for jupyvibe JupyterLab extension.
  * 
  * These tests verify the UI behavior of the extension in a real browser.
  * API-level functionality is tested separately in Python tests.
@@ -23,7 +23,7 @@ import {
 test.describe('Extension Activation', () => {
 
   test('API endpoint returns valid models list', async ({ request, baseURL }) => {
-    const response = await request.get(`${baseURL}/evals-jup/models`);
+    const response = await request.get(`${baseURL}/jupyvibe/models`);
     expect(response.ok()).toBeTruthy();
     
     const data = await response.json();
@@ -105,11 +105,11 @@ test.describe('Prompt Cell Metadata Persistence', () => {
     
     // Find the prompt cell and verify its metadata
     const promptCells = notebook.cells.filter((cell: any) => 
-      cell.metadata?.evals_jup?.isPromptCell === true
+      cell.metadata?.jupyvibe?.isPromptCell === true
     );
     
     expect(promptCells.length).toBe(1);
-    expect(promptCells[0].metadata.evals_jup.model).toBeDefined();
+    expect(promptCells[0].metadata.jupyvibe.model).toBeDefined();
     
     // Verify the content was saved
     const source = Array.isArray(promptCells[0].source) 
@@ -121,16 +121,16 @@ test.describe('Prompt Cell Metadata Persistence', () => {
 
 test.describe('Command Registration', () => {
   
-  test('evals-jup commands are available via app.commands', async ({ page }) => {
+  test('jupyvibe commands are available via app.commands', async ({ page }) => {
     await page.notebook.createNew();
     
     const commands = await checkCommandsRegistered(page, [
-      'evals-jup:insert-prompt-cell',
-      'evals-jup:run-prompt'
+      'jupyvibe:insert-prompt-cell',
+      'jupyvibe:run-prompt'
     ]);
     
-    expect(commands['evals-jup:insert-prompt-cell']).toBe(true);
-    expect(commands['evals-jup:run-prompt']).toBe(true);
+    expect(commands['jupyvibe:insert-prompt-cell']).toBe(true);
+    expect(commands['jupyvibe:run-prompt']).toBe(true);
   });
 
   test('insert command creates prompt cell', async ({ page }) => {
@@ -380,12 +380,12 @@ test.describe('Cell Type Dropdown', () => {
     const contents = await response.json();
     
     const promptCells = contents.content.cells.filter((cell: any) => 
-      cell.metadata?.evals_jup?.isPromptCell === true
+      cell.metadata?.jupyvibe?.isPromptCell === true
     );
     
     expect(promptCells.length).toBe(1);
     expect(promptCells[0].cell_type).toBe('markdown');
-    expect(promptCells[0].metadata.evals_jup.model).toBeDefined();
+    expect(promptCells[0].metadata.jupyvibe.model).toBeDefined();
   });
 });
 
@@ -415,7 +415,7 @@ test.describe('Variable and Function Syntax', () => {
     const response = await request.get(`${baseURL}/api/contents/${tmpPath}/${fileName}?content=1`);
     const contents = await response.json();
     
-    const promptCell = contents.content.cells.find((c: any) => c.metadata?.evals_jup?.isPromptCell);
+    const promptCell = contents.content.cells.find((c: any) => c.metadata?.jupyvibe?.isPromptCell);
     expect(promptCell).toBeDefined();
     
     const source = Array.isArray(promptCell.source) ? promptCell.source.join('') : promptCell.source;
@@ -446,7 +446,7 @@ test.describe('Variable and Function Syntax', () => {
     const response = await request.get(`${baseURL}/api/contents/${tmpPath}/${fileName}?content=1`);
     const contents = await response.json();
     
-    const promptCell = contents.content.cells.find((c: any) => c.metadata?.evals_jup?.isPromptCell);
+    const promptCell = contents.content.cells.find((c: any) => c.metadata?.jupyvibe?.isPromptCell);
     expect(promptCell).toBeDefined();
     
     const source = Array.isArray(promptCell.source) ? promptCell.source.join('') : promptCell.source;

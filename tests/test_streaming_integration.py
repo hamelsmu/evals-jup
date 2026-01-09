@@ -1,6 +1,6 @@
 """Integration tests for SSE streaming responses.
 
-Tests the /evals-jup/prompt endpoint streaming behavior with a live server.
+Tests the /jupyvibe/prompt endpoint streaming behavior with a live server.
 Run with: pytest tests/test_streaming_integration.py -v
 
 Start the server first:
@@ -56,7 +56,7 @@ def parse_sse_events(response_text: str) -> list[dict]:
 
 
 class TestStreamingEndpoint:
-    """Tests for the /evals-jup/prompt streaming endpoint."""
+    """Tests for the /jupyvibe/prompt streaming endpoint."""
 
     def test_endpoint_returns_sse_content_type(self):
         """Endpoint should return text/event-stream content type."""
@@ -66,7 +66,7 @@ class TestStreamingEndpoint:
         
         with httpx.Client(timeout=60.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
                 json={
                     "prompt": "Say 'test' and nothing else",
                     "context": {},
@@ -83,7 +83,7 @@ class TestStreamingEndpoint:
         
         with httpx.Client(timeout=60.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
                 json={
                     "prompt": "Say exactly: Hello World",
                     "context": {},
@@ -108,7 +108,7 @@ class TestStreamingEndpoint:
         
         with httpx.Client(timeout=60.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
                 json={
                     "prompt": "What is the value of x?",
                     "context": {
@@ -140,7 +140,7 @@ class TestStreamingEndpoint:
             # by checking if the endpoint is responsive
             with httpx.Client(timeout=10.0) as client:
                 resp = client.post(
-                    f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+                    f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
                     json={
                         "prompt": "test",
                         "context": {}
@@ -232,7 +232,7 @@ print("Functions defined")
         
         with httpx.Client(timeout=120.0) as client:
             resp = client.post(
-                f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+                f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
                 json={
                     "prompt": "Use the add_numbers function to add 5 and 3. Just call the function, don't explain.",
                     "context": {
@@ -272,12 +272,12 @@ print("Functions defined")
 
 
 class TestModelsEndpoint:
-    """Tests for the /evals-jup/models endpoint."""
+    """Tests for the /jupyvibe/models endpoint."""
 
     def test_models_endpoint_returns_list(self):
         """Models endpoint should return a list of available models."""
         with httpx.Client(timeout=10.0) as client:
-            resp = client.get(f"{BASE_URL}/evals-jup/models?token={TOKEN}")
+            resp = client.get(f"{BASE_URL}/jupyvibe/models?token={TOKEN}")
         
         assert resp.status_code == 200
         data = resp.json()
@@ -292,7 +292,7 @@ class TestModelsEndpoint:
     def test_models_includes_claude_sonnet(self):
         """Models list should include Claude Sonnet."""
         with httpx.Client(timeout=10.0) as client:
-            resp = client.get(f"{BASE_URL}/evals-jup/models?token={TOKEN}")
+            resp = client.get(f"{BASE_URL}/jupyvibe/models?token={TOKEN}")
         
         data = resp.json()
         model_ids = [m["id"] for m in data["models"]]

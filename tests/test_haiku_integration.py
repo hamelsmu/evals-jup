@@ -39,7 +39,7 @@ async def test_minimal_roundtrip():
     async with httpx.AsyncClient(timeout=30.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={"prompt": "Say hello", "context": {}, "model": MODEL},
         ) as response:
             assert response.status_code == 200
@@ -63,7 +63,7 @@ async def test_context_presence():
     async with httpx.AsyncClient(timeout=30.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "What is the value of x?",
                 "context": {
@@ -93,7 +93,7 @@ async def test_variable_substitution():
     async with httpx.AsyncClient(timeout=30.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={
                 "prompt": "What are the values in the data list?",
                 "context": {
@@ -122,7 +122,7 @@ async def test_streaming_completion():
     async with httpx.AsyncClient(timeout=30.0) as client:
         async with client.stream(
             "POST",
-            f"{BASE_URL}/evals-jup/prompt?token={TOKEN}",
+            f"{BASE_URL}/jupyvibe/prompt?token={TOKEN}",
             json={"prompt": "Count to 3", "context": {}, "model": MODEL},
         ) as response:
             assert response.status_code == 200

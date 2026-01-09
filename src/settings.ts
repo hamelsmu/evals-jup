@@ -1,5 +1,5 @@
 /**
- * Settings management for evals-jup extension.
+ * Settings management for jupyvibe extension.
  * 
  * Integrates with JupyterLab's ISettingRegistry for persistent configuration.
  */
@@ -8,7 +8,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { Signal, ISignal } from '@lumino/signaling';
 import { IExtensionSettings } from './tokens';
 
-const PLUGIN_ID = 'evals-jup:plugin';
+const PLUGIN_ID = 'jupyvibe:plugin';
 
 /**
  * Default settings values.
@@ -63,7 +63,7 @@ export class SettingsManager implements IExtensionSettings {
       this._updateFromSettings();
       this._settings.changed.connect(this._onSettingsChanged, this);
     } catch (error) {
-      console.warn('[evals-jup] Failed to load settings, using defaults:', error);
+      console.warn('[jupyvibe] Failed to load settings, using defaults:', error);
     }
   }
 

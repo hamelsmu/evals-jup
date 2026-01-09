@@ -3,7 +3,7 @@ requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0
 build-backend = "hatchling.build"
 
 [project]
-name = "evals_jup"
+name = "jupyvibe"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
@@ -44,7 +44,7 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["evals_jup/labextension"]
+artifacts = ["jupyvibe/labextension"]
 exclude = [
     ".github",
     "binder",
@@ -61,21 +61,21 @@ exclude = [
 ]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"evals_jup/labextension" = "share/jupyter/labextensions/evals-jup"
-"install.json" = "share/jupyter/labextensions/evals-jup/install.json"
+"jupyvibe/labextension" = "share/jupyter/labextensions/jupyvibe"
+"install.json" = "share/jupyter/labextensions/jupyvibe/install.json"
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
 
 [tool.hatch.build.hooks.version]
-path = "evals_jup/_version.py"
+path = "jupyvibe/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "evals_jup/labextension/static/style.js",
-    "evals_jup/labextension/package.json",
+    "jupyvibe/labextension/static/style.js",
+    "jupyvibe/labextension/package.json",
 ]
-skip-if-exists = ["evals_jup/labextension/static/style.js"]
+skip-if-exists = ["jupyvibe/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -85,7 +85,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "evals_jup/labextension"
+build_dir = "jupyvibe/labextension"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

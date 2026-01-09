@@ -42,7 +42,7 @@ function ModelPickerComponent({ settings }: ModelPickerProps): JSX.Element {
         setError(null);
         
         const serverSettings = ServerConnection.makeSettings();
-        const url = URLExt.join(serverSettings.baseUrl, 'evals-jup', 'models');
+        const url = URLExt.join(serverSettings.baseUrl, 'jupyvibe', 'models');
         
         const response = await ServerConnection.makeRequest(url, {}, serverSettings);
         
@@ -98,12 +98,12 @@ function ModelPickerComponent({ settings }: ModelPickerProps): JSX.Element {
   };
 
   if (loading) {
-    return <span className="evals-jup-model-picker-loading">Loading...</span>;
+    return <span className="jupyvibe-model-picker-loading">Loading...</span>;
   }
 
   if (error) {
     return (
-      <span className="evals-jup-model-picker-error" title={error}>
+      <span className="jupyvibe-model-picker-error" title={error}>
         ⚠️ Error
       </span>
     );
@@ -112,9 +112,9 @@ function ModelPickerComponent({ settings }: ModelPickerProps): JSX.Element {
   const currentModels = modelsByProvider[selectedProvider] || [];
 
   return (
-    <div className="evals-jup-model-picker">
+    <div className="jupyvibe-model-picker">
       <select
-        className="evals-jup-provider-select"
+        className="jupyvibe-provider-select"
         value={selectedProvider}
         onChange={handleProviderChange}
         title="Select AI Provider"
@@ -126,7 +126,7 @@ function ModelPickerComponent({ settings }: ModelPickerProps): JSX.Element {
         ))}
       </select>
       <select
-        className="evals-jup-model-select"
+        className="jupyvibe-model-select"
         value={selectedModel}
         onChange={handleModelChange}
         title="Select Model"
@@ -147,7 +147,7 @@ export class ModelPickerWidget extends ReactWidget {
   constructor(settings: IExtensionSettings) {
     super();
     this._settings = settings as IExtensionSettings & { set?: SettingsManager['set'] };
-    this.addClass('evals-jup-model-picker-widget');
+    this.addClass('jupyvibe-model-picker-widget');
   }
 
   render(): JSX.Element {

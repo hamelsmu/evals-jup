@@ -8,7 +8,7 @@
 import * as nbformat from '@jupyterlab/nbformat';
 
 // Constants matching those in cellTypeSwitcher.tsx
-const PROMPT_METADATA_KEY = 'evals_jup';
+const PROMPT_METADATA_KEY = 'jupyvibe';
 
 interface PromptMetadata {
   isPromptCell: boolean;
@@ -69,47 +69,47 @@ function createMockCellModel(
 }
 
 describe('isPromptCell', () => {
-  it('returns true when evals_jup.isPromptCell is true', () => {
+  it('returns true when jupyvibe.isPromptCell is true', () => {
     const model = createMockCellModel('markdown', {
       [PROMPT_METADATA_KEY]: { isPromptCell: true }
     });
     expect(isPromptCell(model)).toBe(true);
   });
 
-  it('returns true when evals_jup.isPromptCell is true with model specified', () => {
+  it('returns true when jupyvibe.isPromptCell is true with model specified', () => {
     const model = createMockCellModel('markdown', {
       [PROMPT_METADATA_KEY]: { isPromptCell: true, model: 'claude-sonnet-4-20250514' }
     });
     expect(isPromptCell(model)).toBe(true);
   });
 
-  it('returns false when evals_jup.isPromptCell is false', () => {
+  it('returns false when jupyvibe.isPromptCell is false', () => {
     const model = createMockCellModel('markdown', {
       [PROMPT_METADATA_KEY]: { isPromptCell: false }
     });
     expect(isPromptCell(model)).toBe(false);
   });
 
-  it('returns false when evals_jup metadata is missing', () => {
+  it('returns false when jupyvibe metadata is missing', () => {
     const model = createMockCellModel('code', {});
     expect(isPromptCell(model)).toBe(false);
   });
 
-  it('returns false when evals_jup metadata is null', () => {
+  it('returns false when jupyvibe metadata is null', () => {
     const model = createMockCellModel('code', {
       [PROMPT_METADATA_KEY]: null
     });
     expect(isPromptCell(model)).toBe(false);
   });
 
-  it('returns false when evals_jup metadata is undefined', () => {
+  it('returns false when jupyvibe metadata is undefined', () => {
     const model = createMockCellModel('code', {
       [PROMPT_METADATA_KEY]: undefined
     });
     expect(isPromptCell(model)).toBe(false);
   });
 
-  it('returns false when evals_jup is empty object', () => {
+  it('returns false when jupyvibe is empty object', () => {
     const model = createMockCellModel('markdown', {
       [PROMPT_METADATA_KEY]: {}
     });
@@ -227,7 +227,7 @@ describe('getMultiCellValue', () => {
 
 describe('Metadata key consistency', () => {
   it('uses the correct metadata key', () => {
-    expect(PROMPT_METADATA_KEY).toBe('evals_jup');
+    expect(PROMPT_METADATA_KEY).toBe('jupyvibe');
   });
 });
 

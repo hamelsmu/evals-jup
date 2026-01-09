@@ -6,7 +6,7 @@ from contextlib import redirect_stdout
 
 import pytest
 
-from evals_jup.handlers import _build_tool_execution_code, _validate_tool_args
+from jupyvibe.handlers import _build_tool_execution_code, _validate_tool_args
 
 
 def test_validate_tool_args_rejects_invalid_key():

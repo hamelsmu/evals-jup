@@ -1,6 +1,6 @@
 """Integration tests for the backend API endpoints.
 
-Tests the PromptHandler in evals_jup/handlers.py with mocked LiteLLM client.
+Tests the PromptHandler in jupyvibe/handlers.py with mocked LiteLLM client.
 """
 
 import json
@@ -104,7 +104,7 @@ class MockHandler:
 @pytest.fixture
 def handler():
     """Create a mock handler with PromptHandler methods bound."""
-    from evals_jup.handlers import PromptHandler
+    from jupyvibe.handlers import PromptHandler
 
     h = MockHandler()
     h._build_system_prompt = PromptHandler._build_system_prompt.__get__(h, MockHandler)
@@ -124,7 +124,7 @@ class TestMissingLiteLLMPackage:
         """When HAS_LITELLM is False, should return HTTP 500 with error JSON."""
         handler._json_body = {"prompt": "test", "context": {}}
 
-        with patch("evals_jup.handlers.HAS_LITELLM", False):
+        with patch("jupyvibe.handlers.HAS_LITELLM", False):
             await handler.post()
 
         assert handler._status_code == 500
@@ -146,8 +146,8 @@ class TestStreamingSSE:
             yield MockChunk(MockDelta(content="Hello "))
             yield MockChunk(MockDelta(content="world"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -172,8 +172,8 @@ class TestModelParameter:
         async def mock_stream():
             yield MockChunk(MockDelta(content="Done"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -188,8 +188,8 @@ class TestModelParameter:
         async def mock_stream():
             yield MockChunk(MockDelta(content="Done"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -208,8 +208,8 @@ class TestSystemPromptConstruction:
         async def mock_stream():
             yield MockChunk(MockDelta(content="Done"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -257,8 +257,8 @@ class TestToolCalling:
             tc = MockToolCall(0, "call_123", "calculate", '{"x": 4}')
             yield MockChunk(MockDelta(tool_calls=[tc]))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -278,8 +278,8 @@ class TestBadInput:
         async def mock_stream():
             yield MockChunk(MockDelta(content="Hello"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 await handler.post()
 
@@ -316,8 +316,8 @@ class TestStreamClosedError:
         async def mock_stream():
             yield MockChunk(MockDelta(content="Hello"))
 
-        with patch("evals_jup.handlers.HAS_LITELLM", True):
-            with patch("evals_jup.handlers.litellm") as mock_litellm:
+        with patch("jupyvibe.handlers.HAS_LITELLM", True):
+            with patch("jupyvibe.handlers.litellm") as mock_litellm:
                 mock_litellm.acompletion = AsyncMock(return_value=mock_stream())
                 # Should not raise - StreamClosedError should be caught
                 await handler.post()

@@ -28,9 +28,9 @@ type ImageMimeType = (typeof IMAGE_MIME_TYPES)[number];
 const VEGALITE_MIME_PATTERN = /^application\/vnd\.vegalite\.v\d+\+json$/;
 const PLOTLY_MIME = 'application/vnd.plotly.v1+json';
 
-const PROMPT_CELL_CLASS = 'evals-jup-prompt-cell';
-const PROMPT_OUTPUT_CLASS = 'evals-jup-prompt-output';
-const PROMPT_METADATA_KEY = 'evals_jup';
+const PROMPT_CELL_CLASS = 'jupyvibe-prompt-cell';
+const PROMPT_OUTPUT_CLASS = 'jupyvibe-prompt-output';
+const PROMPT_METADATA_KEY = 'jupyvibe';
 
 interface PromptMetadata {
   isPromptCell?: boolean;
@@ -88,7 +88,7 @@ export class PromptCellManager implements IPromptCellManager {
           }
           // Restore "Convert to Cells" button if settings allow
           if (this._settings?.showConvertButton !== false) {
-            const content = cellModel.getMetadata('evals_jup_content') as string | undefined;
+            const content = cellModel.getMetadata('jupyvibe_content') as string | undefined;
             if (content && cell.model.type === 'markdown') {
               this._addConvertButton(panel, cell as MarkdownCell, content);
             }
@@ -489,7 +489,7 @@ export class PromptCellManager implements IPromptCellManager {
     if (notebook.model) {
       const cellData = outputCell.model.toJSON();
       cellData.cell_type = 'markdown';
-      cellData.source = '<div class="evals-jup-loading">Generating response...</div>';
+      cellData.source = '<div class="jupyvibe-loading">Generating response...</div>';
       notebook.model.sharedModel.deleteCell(outputIndex);
       notebook.model.sharedModel.insertCell(outputIndex, cellData);
     }
@@ -594,25 +594,25 @@ export class PromptCellManager implements IPromptCellManager {
    */
   private _addConvertButton(panel: NotebookPanel, cell: MarkdownCell, content: string): void {
     // Store content in metadata for later retrieval
-    cell.model.setMetadata('evals_jup_content', content);
+    cell.model.setMetadata('jupyvibe_content', content);
     
     // Check if button already exists
-    const existingContainer = cell.node.querySelector('.evals-jup-convert-button-container');
+    const existingContainer = cell.node.querySelector('.jupyvibe-convert-button-container');
     if (existingContainer) {
       return;
     }
 
     // Create button container - append directly to cell node
     const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'evals-jup-convert-button-container';
+    buttonContainer.className = 'jupyvibe-convert-button-container';
 
     const button = document.createElement('button');
-    button.className = 'jp-mod-styled evals-jup-convert-button';
+    button.className = 'jp-mod-styled jupyvibe-convert-button';
     button.innerHTML = '<span class="jp-ToolbarButtonComponent-icon"></span><span class="jp-ToolbarButtonComponent-label">Convert to Cells</span>';
     button.title = 'Convert this response into separate code and markdown cells';
 
     button.addEventListener('click', () => {
-      const storedContent = cell.model.getMetadata('evals_jup_content') as string || content;
+      const storedContent = cell.model.getMetadata('jupyvibe_content') as string || content;
       this._convertToCells(panel, cell, storedContent);
     });
 
@@ -630,19 +630,19 @@ export class PromptCellManager implements IPromptCellManager {
     const cellIndex = notebook.widgets.indexOf(responseCell);
     
     if (cellIndex < 0 || !notebook.model) {
-      console.log('[evals-jup] Convert: invalid cell index or no model');
+      console.log('[jupyvibe] Convert: invalid cell index or no model');
       return;
     }
 
-    console.log('[evals-jup] Converting content:', content.substring(0, 200) + '...');
+    console.log('[jupyvibe] Converting content:', content.substring(0, 200) + '...');
 
     // Parse the content into blocks
     const blocks = this._parseContentBlocks(content);
     
-    console.log('[evals-jup] Parsed blocks:', blocks.length, blocks.map(b => ({ type: b.type, len: b.content.length })));
+    console.log('[jupyvibe] Parsed blocks:', blocks.length, blocks.map(b => ({ type: b.type, len: b.content.length })));
     
     if (blocks.length === 0) {
-      console.log('[evals-jup] No blocks parsed, keeping original cell');
+      console.log('[jupyvibe] No blocks parsed, keeping original cell');
       return;
     }
 
@@ -660,7 +660,7 @@ export class PromptCellManager implements IPromptCellManager {
       notebook.model.sharedModel.insertCell(cellIndex, cellData);
     }
     
-    console.log('[evals-jup] Inserted', blocks.length, 'cells');
+    console.log('[jupyvibe] Inserted', blocks.length, 'cells');
   }
 
   /**
@@ -682,11 +682,11 @@ export class PromptCellManager implements IPromptCellManager {
     let lastIndex = 0;
     let match;
 
-    console.log('[evals-jup] Parsing content, length:', normalizedContent.length);
-    console.log('[evals-jup] Content starts with:', JSON.stringify(normalizedContent.substring(0, 100)));
+    console.log('[jupyvibe] Parsing content, length:', normalizedContent.length);
+    console.log('[jupyvibe] Content starts with:', JSON.stringify(normalizedContent.substring(0, 100)));
 
     while ((match = codeBlockRegex.exec(normalizedContent)) !== null) {
-      console.log('[evals-jup] Found code block match at', match.index, 'language:', match[1], 'code length:', match[2].length);
+      console.log('[jupyvibe] Found code block match at', match.index, 'language:', match[1], 'code length:', match[2].length);
       
       // Add any text before this code block
       const textBefore = normalizedContent.slice(lastIndex, match.index).trim();
@@ -712,7 +712,7 @@ export class PromptCellManager implements IPromptCellManager {
 
     // If no code blocks found but content exists, return as single markdown block
     if (blocks.length === 0 && normalizedContent.trim()) {
-      console.log('[evals-jup] No code blocks found, returning as single markdown');
+      console.log('[jupyvibe] No code blocks found, returning as single markdown');
       blocks.push({ type: 'markdown', content: normalizedContent.trim() });
     }
 

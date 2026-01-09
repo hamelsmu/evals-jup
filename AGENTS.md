@@ -1,10 +1,10 @@
-# AI Agent Instructions for evals-jup
+# AI Agent Instructions for jupyvibe
 
 ## Overview
 
-evals-jup is a JupyterLab extension that adds AI-powered prompt cells with `` $`variable` `` and `` &`function` `` syntax. It has:
+jupyvibe is a JupyterLab extension that adds AI-powered prompt cells with `` $`variable` `` and `` &`function` `` syntax. It has:
 - **TypeScript frontend** (`src/`) - JupyterLab extension code
-- **Python backend** (`evals_jup/`) - Tornado handlers for Anthropic API + kernel execution
+- **Python backend** (`jupyvibe/`) - Tornado handlers for Anthropic API + kernel execution
 
 ## Commands
 

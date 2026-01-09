@@ -1,4 +1,4 @@
-"""Helper functions for testing evals-jup syntax."""
+"""Helper functions for testing jupyvibe syntax."""
 
 def xq7(x: int, y: int) -> int:
     """

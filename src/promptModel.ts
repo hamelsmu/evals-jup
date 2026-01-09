@@ -89,7 +89,7 @@ export class PromptModel implements IPromptModel {
         .find(row => row.startsWith('_xsrf='))
         ?.split('=')[1];
 
-      const response = await fetch(`${baseUrl}evals-jup/prompt`, {
+      const response = await fetch(`${baseUrl}jupyvibe/prompt`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
