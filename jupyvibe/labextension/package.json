@@ -9,7 +9,7 @@
     "ai",
     "llm"
   ],
-  "homepage": "https://github.com/hamelsmu/jupyvibe",
+  "homepage": "https://github.com/parlance-labs/jupyvibe",
   "license": "MIT",
   "author": {
     "name": "Hamel Husain"
@@ -23,7 +23,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hamelsmu/jupyvibe.git"
+    "url": "https://github.com/parlance-labs/jupyvibe.git"
   },
   "scripts": {
     "build": "jlpm build:lib && jlpm build:labextension:dev",

@@ -2,7 +2,7 @@
 
 A JupyterLab extension that adds AI-powered prompt cells with special syntax for referencing kernel variables and exposing functions as AI-callable tools.
 
-[![CI](https://github.com/hamelsmu/jupyvibe/actions/workflows/ci.yml/badge.svg)](https://github.com/hamelsmu/jupyvibe/actions/workflows/ci.yml)
+[![CI](https://github.com/parlance-labs/jupyvibe/actions/workflows/ci.yml/badge.svg)](https://github.com/parlance-labs/jupyvibe/actions/workflows/ci.yml)
 ![JupyterLab 4.x](https://img.shields.io/badge/JupyterLab-4.x-blue)
 ![Python 3.8+](https://img.shields.io/badge/Python-3.8+-green)
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow)
@@ -253,7 +253,7 @@ To change the model, edit the cell metadata:
 ## Development
 
 ```bash
-git clone https://github.com/hamelsmu/jupyvibe.git
+git clone https://github.com/parlance-labs/jupyvibe.git
 cd jupyvibe
 just install   # Install in dev mode with live reload
 just test      # Run all tests
