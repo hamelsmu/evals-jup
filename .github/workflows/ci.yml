@@ -27,10 +27,8 @@ jobs:
           node-version: "20"
           cache: "yarn"
 
-      - name: Install Python dependencies
-        run: |
-          pip install jupyterlab>=4.0.0
-          pip install -e ".[test]"
+      - name: Install JupyterLab
+        run: pip install jupyterlab>=4.0.0
 
       - name: Install Node dependencies
         run: yarn install --immutable
@@ -39,6 +37,9 @@ jobs:
         run: |
           npx tsc --sourceMap
           jupyter labextension build --development True .
+
+      - name: Install Python package
+        run: pip install -e ".[test]"
 
       - name: Run TypeScript tests
         run: yarn test
